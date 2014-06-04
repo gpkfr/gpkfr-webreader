@@ -61,6 +61,20 @@ class webreader (
     		require =>  Exec [ 'apt-update']
  	}
 
+  package { 'compass':
+    name => 'compass',
+    provider => gem,
+    ensure => latest,
+    require => Package['rubygems'],
+  }
+
+  package { 'sass':
+    name => 'sass',
+    provider => gem,
+    ensure => latest,
+    require => Package['rubygems'],
+}
+
 	exec { "apt-update":
 		command => "/usr/bin/apt-get update",
 	}
@@ -91,6 +105,7 @@ class webreader (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
+
   file { "/var/www":
     ensure => directory,
     mode   => 775,
