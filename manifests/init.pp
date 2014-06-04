@@ -42,8 +42,8 @@ class webreader (
 	$server_name	  = 'wr.gutenberg-technology.com',
   $script_name     = 'webreader',
   $status         = 'running',
-	$wruser		= 'admin',
-	$wrgrp		= 'admin',
+	$wruser		= 'vagrant',
+	$wrgrp		= 'vagrant',
 	$nodeapp_dir	= '/var/www/wr/dist/'
 ){
 	$nginx = "nginx-light"
