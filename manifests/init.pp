@@ -39,7 +39,19 @@ class webreader (
   $version        = 'latest',
   $environment    = 'production',
   $server         = '127.0.0.1',
-	$location   => 'http://packages.dotdeb.org',
+	$server_name	  = 'wr.gutenberg-technology.com',
+  $script_name    = 'webreader',
+  $status         = 'running',
+	$wruser		      = 'vagrant',
+	$wrgrp		      = 'vagrant',
+	$nodeapp_dir	  = '/var/www/wr/dist/'
+){
+	$nginx = "nginx-light"
+	$base = [ $nginx, "ruby-compass", "build-essential", "git", "unzip", "libfontconfig1" ]
+	include apt
+
+	apt::source { 'dotdeb':
+		location   => 'http://packages.dotdeb.org',
 		release    => 'wheezy-php55',
  		repos      => 'all',
 		key        => '89DF5277',
