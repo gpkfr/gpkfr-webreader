@@ -91,15 +91,19 @@ class webreader (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
-
-	vcsrepo { "/var/www/${script_name}":
-		ensure   => latest,
-		provider => git,
-		revision => 'master',
-		source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
-  	user     => $wruser,
-  	owner    => $wruser,
-		group    => $wrgrp,
-  	require  => Exec['ssh know github']
+  file { "/var/www":
+    ensure => directory,
+    mode   => 775,
+    owner  => 'root',
+    group  => $wruser,
+  }->vcsrepo { "/var/www/${script_name}":
+		  ensure   => latest,
+		  provider => git,
+		  revision => 'master',
+		  source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
+  	  user     => $wruser,
+  	  owner    => $wruser,
+		  group    => $wrgrp,
+  	  require  => Exec['ssh know github']
 		}
 }
