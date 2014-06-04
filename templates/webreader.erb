@@ -1,6 +1,6 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          app
+# Provides:          <%= @script_name %>
 # Required-Start:    $remote_fs $syslog $network
 # Required-Stop:     $remote_fs $syslog $network
 # Default-Start:     2 3 4 5
@@ -13,19 +13,18 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
 # --- NodeJS
-PATH=$PATH:/opt/node/bin
-NODE_PATH=/opt/node:/opt/node/lib/node_modules
+#PATH=$PATH:/opt/node/bin
+#NODE_PATH=/opt/node:/opt/node/lib/node_modules
 # ---
 DESC="webreader"
-NAME=webreader
-DAEMON=/opt/node/bin/node
+NAME=<%= @script_name %>
+DAEMON=/usr/local/node/node-default/bin/node
 USER=<%= @wruser %>
 GROUP=<%= @wrgrp %>
-LOGFILE=/var/log/webreader/wr.log
+LOGFILE=/var/log/webreader/$NAME.log
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
-#NODEAPP_DIR=/vagrant/www/wr/dist/
 NODEAPP_DIR=<%= @nodeapp_dir %>
 NODEAPP_SCRIPT="server.js"
 NODEAPP_OPTION=""
