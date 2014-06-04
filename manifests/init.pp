@@ -47,7 +47,7 @@ class webreader (
 	$nodeapp_dir	= '/var/www/wr/dist/'
 ){
 	$nginx = "nginx-light"
-	$base = [ $nginx, "ruby-compass", "build-essential", "g++", "git", "unzip", "libfontconfig1" ]
+	$base = [ $nginx, "ruby-compass", "build-essential", "git", "unzip", "libfontconfig1" ]
 	include apt
 
 	apt::source { 'dotdeb':
