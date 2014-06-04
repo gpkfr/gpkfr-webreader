@@ -41,6 +41,7 @@ class webreader (
   $server         = '127.0.0.1',
 	$server_name	  = 'wr.gutenberg-technology.com',
   $script_name    = 'webreader',
+  $node_port      = '3000',
   $status         = 'running',
 	$wruser		      = 'vagrant',
 	$wrgrp		      = 'vagrant',
