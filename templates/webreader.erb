@@ -30,6 +30,7 @@ NODEAPP_OPTION=""
 
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
+[ -d /var/www/$NAME/books ] || mkdir -p /var/www/$NAME/books && chown -R <=% @wruser %>:<=% @wrgrp %> /var/www/$NAME/books
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
