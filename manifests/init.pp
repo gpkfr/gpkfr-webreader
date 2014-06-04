@@ -44,11 +44,11 @@ class webreader (
   $status         = 'running',
 	$wruser		      = 'vagrant',
 	$wrgrp		      = 'vagrant',
-	$nodeapp_dir	  = '/var/www/wr/dist/'
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
   $npm_pkg = [ "phantomjs", "gulp", "bower" ]
+  $nodeapp_dir = "/var/www/${script_name}/dist/"
 	include apt
 
 	apt::source { 'dotdeb':
