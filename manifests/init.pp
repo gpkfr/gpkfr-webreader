@@ -39,19 +39,7 @@ class webreader (
   $version        = 'latest',
   $environment    = 'production',
   $server         = '127.0.0.1',
-	$server_name	  = 'wr.gutenberg-technology.com',
-  $script_name     = 'webreader',
-  $status         = 'running',
-	$wruser		= 'vagrant',
-	$wrgrp		= 'vagrant',
-	$nodeapp_dir	= '/var/www/wr/dist/'
-){
-	$nginx = "nginx-light"
-	$base = [ $nginx, "ruby-compass", "build-essential", "git", "unzip", "libfontconfig1" ]
-	include apt
-
-	apt::source { 'dotdeb':
-		location   => 'http://packages.dotdeb.org',
+	$location   => 'http://packages.dotdeb.org',
 		release    => 'wheezy-php55',
  		repos      => 'all',
 		key        => '89DF5277',
@@ -66,7 +54,7 @@ class webreader (
 	}
 
   class { 'nodejs':
-    version => 'v0.10.26',
+    version => 'v0.10.28',
   }
 
 	file { "/etc/init.d/${script_name}":
@@ -91,7 +79,7 @@ class webreader (
 		user    => $wruser
 	}
 
-	vcsrepo { '/var/www/${script_name}':
+	vcsrepo { "/var/www/${script_name}":
 		ensure   => latest,
 		provider => git,
 		revision => 'master',
