@@ -48,6 +48,7 @@ class webreader (
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1" ]
+  $npm_pkg = [ "phantomjs", "gulp", "bower" ]
 	include apt
 
 	apt::source { 'dotdeb':
@@ -81,7 +82,7 @@ class webreader (
 
   class { 'nodejs':
     version => 'v0.10.28',
-  }->package { 'phantomjs':
+  }->package { $npm_pkg:
                 provider => npm,
   }
 
