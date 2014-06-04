@@ -83,7 +83,7 @@ class webreader (
 		owner     => 'root',
 		group     => 'root',
 		content   => template('webreader/node.erb'),
-    require   => Package ["${nginx}"],
+    require   => Package [$nginx],
 	}
 
 	exec { 'ssh know github':
