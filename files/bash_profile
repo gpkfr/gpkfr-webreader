@@ -1,0 +1,4 @@
+# --- NodeJS
+export PATH=$PATH:/opt/node/bin
+export NODE_PATH=/opt/node:/opt/node/lib/node_modules
+# ---
