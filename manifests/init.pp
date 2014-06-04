@@ -78,11 +78,12 @@ class webreader (
 	}
 
 	file { "/etc/nginx/sites-available/${script_name}":
-		ensure => file,
-		mode => 644,
-		owner => 'root',
-		group => 'root',
-		content => template('webreader/node.erb'),
+		ensure    => file,
+		mode      => 644,
+		owner     => 'root',
+		group     => 'root',
+		content   => template('webreader/node.erb'),
+    require   => Package ["${nginx}"],
 	}
 
 	exec { 'ssh know github':
@@ -99,6 +100,6 @@ class webreader (
   	user     => $wruser,
   	owner    => $wruser,
 		group    => $wrgrp,
-  		require  => Exec['ssh know github']
+  	require  => Exec['ssh know github']
 		}
 }
