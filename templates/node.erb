@@ -1,13 +1,13 @@
-# the IP(s) on which your node server is running. I chose port 3000.
-upstream webreader {
-    server 127.0.0.1:3000;
+# the IP(s) on which your node server is running. I choose port 3000.
+upstream <%= @script_name %> {
+server 127.0.0.1:<%= @node_port %>;
 }
 
 # the nginx server instance
 server {
     listen 0.0.0.0:80;
     server_name <%= @server_name %>;
-    access_log /var/log/nginx/webreader.log;
+    access_log /var/log/nginx/<%= @script_name %>.log;
 
     # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
     location / {
@@ -16,7 +16,7 @@ server {
       proxy_set_header Host $http_host;
       proxy_set_header X-NginX-Proxy true;
 
-      proxy_pass http://webreader/;
+      proxy_pass http://<%= @script_name %>/;
       proxy_redirect off;
     }
  }
