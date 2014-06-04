@@ -31,6 +31,9 @@ NODEAPP_OPTION=""
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 [ -d /var/www/$NAME/books ] || mkdir -p /var/www/$NAME/books && chown -R <%= @wruser %>:<%= @wrgrp %> /var/www/$NAME/books
+[ -d /var/www/$NAME/data ] || mkdir -p /var/www/$NAME/data && chown -R <%= @wruser %>:<%= @wrgrp %> /var/www/$NAME/data
+
+[ -d /var/log/$NAME ] || mkdir -p /var/log/$NAME
 
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
