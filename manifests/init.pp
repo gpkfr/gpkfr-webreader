@@ -81,6 +81,8 @@ class webreader (
 
   class { 'nodejs':
     version => 'v0.10.28',
+  }->package { 'phantomjs':
+                provider => npm,
   }
 
 	file { "/etc/init.d/${script_name}":
