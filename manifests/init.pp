@@ -109,9 +109,10 @@ class webreader (
 		group => 'root',
 		content => template('webreader/webreader.erb'),
 	}->service { "${script_name}":
-                name    => $script_name,
-                ensure  => running,
-                enable  => true,
+                name   => $script_name,
+                ensure => running,
+                enable => true,
+                after  => Vcsrepo ["/var/www/${script_name}"],
               }
 
 
