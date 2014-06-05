@@ -108,7 +108,12 @@ class webreader (
 		owner => 'root',
 		group => 'root',
 		content => template('webreader/webreader.erb'),
-	}
+	}->service { "${script_name}":
+                name    => $script_name,
+                ensure  => running,
+                enable  => true,
+              }
+
 
 	file { "/etc/nginx/sites-available/${script_name}":
 		ensure    => file,
@@ -144,7 +149,7 @@ class webreader (
     group  => $wruser,
   }->
 */
-  
+
   vcsrepo { "/var/www/${script_name}":
 		  ensure   => latest,
 		  provider => git,
@@ -154,11 +159,7 @@ class webreader (
   	  owner    => $wruser,
 		  group    => $wrgrp,
   	  require  => Exec['ssh know github']
-		}->service { "${script_name}":
-                name    => $script_name,
-                ensure  => running,
-                enable  => true,
-                require => File ["/etc/init.d/${script_name}"],
-  }
+		}
+
 
 }
