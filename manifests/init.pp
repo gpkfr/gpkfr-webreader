@@ -87,6 +87,13 @@ class webreader (
                 provider => npm,
   }
 
+  service {  'nginx':
+    name    => "nginx",
+    ensure  => running,
+    enable  => true,
+    require => Package[$nginx],
+  }
+
   file { "/usr/local/sbin/webreader.sh":
     ensure  => file,
     mode    => 755,
