@@ -142,13 +142,15 @@ class webreader (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
-
+/*
   file { "/var/www":
     ensure => directory,
     mode   => 775,
     owner  => 'root',
     group  => $wruser,
-  }->vcsrepo { "/var/www/${script_name}":
+  }->
+*/
+  vcsrepo { "/var/www/${script_name}":
 		  ensure   => latest,
 		  provider => git,
 		  revision => 'master',
