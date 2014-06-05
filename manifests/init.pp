@@ -110,13 +110,6 @@ class webreader (
 		content => template('webreader/webreader.erb'),
 	}
 
-  service { "${script_name}":
-    name    => $script_name,
-    ensure  => running,
-    enable  => true,
-    require => File ["/etc/init.d/${script_name}"],
-  }
-
 	file { "/etc/nginx/sites-available/${script_name}":
 		ensure    => file,
 		mode      => 644,
@@ -142,15 +135,13 @@ class webreader (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
-/*
+
   file { "/var/www":
     ensure => directory,
     mode   => 775,
     owner  => 'root',
     group  => $wruser,
-  }->
-*/
-  vcsrepo { "/var/www/${script_name}":
+  }->vcsrepo { "/var/www/${script_name}":
 		  ensure   => latest,
 		  provider => git,
 		  revision => 'master',
@@ -159,5 +150,11 @@ class webreader (
   	  owner    => $wruser,
 		  group    => $wrgrp,
   	  require  => Exec['ssh know github']
-		}
+		}->service { "${script_name}":
+                name    => $script_name,
+                ensure  => running,
+                enable  => true,
+                require => File ["/etc/init.d/${script_name}"],
+  }
+
 }
