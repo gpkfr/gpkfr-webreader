@@ -111,6 +111,12 @@ class webreader (
 		content   => template('webreader/node.erb'),
     require   => Package [$nginx],
 	}
+  file {"/etc/nginx/sites-enabled/${script_name}":
+    ensure  => link,
+    target  => "/etc/nginx/sites-available/${script_name}",
+    require => File ["/etc/nginx/sites-enabled/${script_name}"],
+    notify  => Service["nginx"],
+  }
   file { "/etc/nginx/sites-enabled/default":
     ensure  => absent,
     require => Package [$nginx],
