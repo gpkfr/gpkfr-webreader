@@ -87,7 +87,7 @@ class webreader (
                 provider => npm,
   }
 
-  service {  'nginx':
+  service { 'nginx':
     name    => "nginx",
     ensure  => running,
     enable  => true,
@@ -109,6 +109,13 @@ class webreader (
 		group => 'root',
 		content => template('webreader/webreader.erb'),
 	}
+
+  service { "${script_name}":
+    name    => $script_name,
+    ensure  => running,
+    enable  => true,
+    require => File ["/etc/init.d/${script_name}"],
+  }
 
 	file { "/etc/nginx/sites-available/${script_name}":
 		ensure    => file,
