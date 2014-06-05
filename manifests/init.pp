@@ -87,6 +87,14 @@ class webreader (
                 provider => npm,
   }
 
+  file { "/usr/local/sbin/webreader.sh":
+    ensure  => file,
+    mode    => 755,
+    owner   => root,
+    group   => root,
+    source => "puppet:///modules/webreader/webreader.sh",
+  }
+
 	file { "/etc/init.d/${script_name}":
 		ensure => file,
 		mode => 755,
@@ -103,6 +111,10 @@ class webreader (
 		content   => template('webreader/node.erb'),
     require   => Package [$nginx],
 	}
+  file { "/etc/nginx/sites-enabled/default":
+    ensure  => absent,
+    require => Package [$nginx],
+  }
 
 	exec { 'ssh know github':
 		command => 'ssh -Tv git@github.com -o StrictHostKeyChecking=no; echo Success',
