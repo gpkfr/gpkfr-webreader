@@ -38,18 +38,12 @@
 class webreader (
   $version        = 'latest',
   $environment    = 'production',
-  $server         = '127.0.0.1',
-	$server_name	  = 'wr.gutenberg-technology.com',
-  $script_name    = 'webreader',
-  $node_port      = '3000',
   $status         = 'running',
-	$wruser		      = 'vagrant',
-	$wrgrp		      = 'vagrant',
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
   $npm_pkg = [ "phantomjs", "gulp", "bower" ]
-  $nodeapp_dir = "/var/www/${script_name}/dist/"
+  #$nodeapp_dir = "/var/www/${script_name}/dist/"
 	include apt
 
 	apt::source { 'dotdeb':
@@ -93,47 +87,7 @@ class webreader (
     enable  => true,
     require => Package[$nginx],
   }
-
-  file { "/usr/local/sbin/webreader.sh":
-    ensure  => file,
-    mode    => 755,
-    owner   => root,
-    group   => root,
-    source => "puppet:///modules/webreader/webreader.sh",
-  }
-
-	file { "/etc/init.d/${script_name}":
-		ensure => file,
-		mode => 755,
-		owner => 'root',
-		group => 'root',
-		content => template('webreader/webreader.erb'),
-	}
-
-/*
-  ->service { "${script_name}":
-                name   => $script_name,
-                ensure => running,
-                enable => true,
-                after  => Vcsrepo ["/var/www/${script_name}"],
-              }
-*/
-
-	file { "/etc/nginx/sites-available/${script_name}":
-		ensure    => file,
-		mode      => 644,
-		owner     => 'root',
-		group     => 'root',
-		content   => template('webreader/node.erb'),
-    require   => Package [$nginx],
-	}
-
-  file {"/etc/nginx/sites-enabled/${script_name}":
-    ensure  => link,
-    target  => "/etc/nginx/sites-available/${script_name}",
-    require => File ["/etc/nginx/sites-available/${script_name}"],
-    notify  => Service["nginx"],
-  }
+	
   file { "/etc/nginx/sites-enabled/default":
     ensure  => absent,
     require => Package [$nginx],
@@ -144,26 +98,4 @@ class webreader (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
-
-  /*
-  file { "/var/www":
-    ensure => directory,
-    mode   => 775,
-    owner  => 'root',
-    group  => $wruser,
-  }->
-*/
-
-  vcsrepo { "/var/www/${script_name}":
-		  ensure   => latest,
-		  provider => git,
-		  revision => 'master',
-		  source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
-  	  user     => $wruser,
-  	  owner    => $wruser,
-		  group    => $wrgrp,
-  	  require  => Exec['ssh know github']
-		}
-
-
 }
