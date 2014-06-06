@@ -54,7 +54,7 @@ define webreader::vhost (
 		user    => $wruser
 	}
   
-    file {"${root_dir":
+    file { "${root_dir}":
     	ensure  => directory,
     	owner   => $wruser,
     	group   => $wrgrp,
