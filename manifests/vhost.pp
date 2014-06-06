@@ -56,8 +56,8 @@ define webreader::vhost (
   
     file { "${root_dir}":
     	ensure  => directory,
-    	owner   => $wruser,
-    	group   => $wrgrp,
+    	owner   => 'root',
+    	group   => 'root',
     	require => Package [$nginx],
 	}
 
