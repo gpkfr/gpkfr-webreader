@@ -35,7 +35,7 @@ NODEAPP_OPTION=""
 
 [ -d /var/log/$NAME ] || mkdir -p /var/log/$NAME
 
-[ -r <%= @root_dir %>/$NAME/$name.lock ] || sudo -u $USER /usr/local/sbin/webreader.sh <%= @root_dir %>/$NAME
+[ -r <%= @root_dir %>/$NAME/$name.lock ] || sudo -u $USER /usr/local/sbin/webreader.sh <%= @root_dir %> $NAME
 
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
