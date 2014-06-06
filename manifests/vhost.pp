@@ -1,13 +1,17 @@
-class webreader::vhost (
-	$server_name 	= "wr.gutenberg-technology.com",
+define webreader::vhost (
+	$nodeapp_dir,
+	$server_name 	= $name,
 	$server 		= '127.0.0.1',
-	$script_name    = 'webreader',
 	$node_port      = '3000',
+	$script_name    = 'webreader',
 	$wruser		    = 'vagrant',
 	$wrgrp		    = 'vagrant',
 ){
 
-	$nodeapp_dir = "/var/www/${script_name}/dist/"
+	if ! defined(Class['webreader']) {
+    fail('You must include the webreader base class before using any webreader defined resources')
+  }
+	# $nodeapp_dir = "/var/www/${script_name}/dist/"
 
 	file { "/usr/local/sbin/webreader.sh":
 	    ensure  => file,
