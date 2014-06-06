@@ -93,9 +93,4 @@ class webreader (
     require => Package [$nginx],
   }
 
-	exec { 'ssh know github':
-		command => 'ssh -Tv git@github.com -o StrictHostKeyChecking=no; echo Success',
-		path    => '/bin:/usr/bin',
-		user    => $wruser
-	}
 }
