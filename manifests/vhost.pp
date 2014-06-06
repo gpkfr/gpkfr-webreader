@@ -1,5 +1,6 @@
 define webreader::vhost (
 	$nodeapp_dir,
+	$root_dir       = '/var/www',
 	$server_name 	= $name,
 	$server 		= '127.0.0.1',
 	$node_port      = '3000',
@@ -53,7 +54,14 @@ define webreader::vhost (
 		user    => $wruser
 	}
   
-	vcsrepo { "/var/www/${script_name}":
+    file {"${root_dir":
+    	ensure  => directory,
+    	owner   => $wruser,
+    	group   => $wrgrp,
+    	require => Package [$nginx],
+	}
+
+	vcsrepo { "${root_dir}/${script_name}":
 		ensure   => latest,
 		provider => git,
 		revision => 'master',
