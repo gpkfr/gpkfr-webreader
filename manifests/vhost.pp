@@ -56,8 +56,9 @@ define webreader::vhost (
   
     file { "${root_dir}":
     	ensure  => directory,
-    	owner   => 'root',
-    	group   => 'root',
+    	owner   => $wruser,
+    	group   => $wrgrp,
+    	mode    => 775,
     	require => Package [$nginx],
 	}->vcsrepo 
 		{ "${root_dir}/${script_name}":
