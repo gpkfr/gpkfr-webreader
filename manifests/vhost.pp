@@ -7,12 +7,17 @@ define webreader::vhost (
 	$script_name    = 'webreader',
 	$wruser		    = 'vagrant',
 	$wrgrp		    = 'vagrant',
-    $nginx = $::webreader::nginx
+  $nginx = $::webreader::nginx,
+  $vagrant = false
 ){
 
 	if ! defined(Class['webreader']) {
     fail('You must include the webreader base class before using any webreader defined resources')
   }
+
+
+  validate_bool($vagrant)
+
 	# $nodeapp_dir = "/var/www/${script_name}/dist/"
 
 	file { "/usr/local/sbin/webreader.sh":
@@ -53,7 +58,8 @@ define webreader::vhost (
 		path    => '/bin:/usr/bin',
 		user    => $wruser
 	}
-  
+
+  if ! $vagrant {
     file { "${root_dir}":
     	ensure  => directory,
     	owner   => $wruser,
@@ -71,4 +77,5 @@ define webreader::vhost (
 			group    => $wrgrp,
   			require  => Exec['ssh know github']
 		}
+  }
 }
