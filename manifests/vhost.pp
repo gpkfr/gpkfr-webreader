@@ -59,16 +59,15 @@ define webreader::vhost (
     	owner   => 'root',
     	group   => 'root',
     	require => Package [$nginx],
-	}
-
-	vcsrepo { "${root_dir}/${script_name}":
-		ensure   => latest,
-		provider => git,
-		revision => 'master',
-		source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
-  		user     => $wruser,
-  		owner    => $wruser,
-		group    => $wrgrp,
-  		require  => Exec['ssh know github']
-	}
+	}->vcsrepo 
+		{ "${root_dir}/${script_name}":
+			ensure   => latest,
+			provider => git,
+			revision => 'master',
+			source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
+  			user     => $wruser,
+  			owner    => $wruser,
+			group    => $wrgrp,
+  			require  => Exec['ssh know github']
+		}
 }
