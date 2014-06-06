@@ -6,6 +6,7 @@ define webreader::vhost (
 	$script_name    = 'webreader',
 	$wruser		    = 'vagrant',
 	$wrgrp		    = 'vagrant',
+    $nginx = $::webreader::nginx
 ){
 
 	if ! defined(Class['webreader']) {
