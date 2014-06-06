@@ -1,13 +1,14 @@
 #!/bin/sh
 # Install le webreader
 
-BASE_DIR=/var/www
 
-[ $# -eq 1 ] || exit 1
+[ $# -eq 2 ] || exit 1
 
+BASE_DIR=$1
+WEBREADER=$2
 
-WEBREADER=$1
 DOCROOT=${BASE_DIR}/${WEBREADER}
+
 
 [ ! -r ${DOCROOT}/${WEBREADER}.lock ] || exit 0
 
