@@ -36,6 +36,12 @@ define webreader::vhost (
 		content => template('webreader/webreader.erb'),
 	}
 
+	service { "${script_name}":
+		ensure => running,
+		enable => true,
+
+	}
+
 
 	file { "/etc/nginx/sites-available/${script_name}":
 		ensure    => file,
