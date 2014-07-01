@@ -76,7 +76,7 @@ class webreader (
 	}
 
   class { 'nodejs':
-    version => 'v0.10.28',
+    version => 'v0.10.29',
   }->package { $npm_pkg:
                 provider => npm,
   }
