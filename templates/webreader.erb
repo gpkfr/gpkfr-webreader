@@ -23,15 +23,13 @@ PIDFILE=/var/run/${NAME}.pid
 SCRIPTNAME=/etc/init.d/${NAME}
 
 NODEAPP_DIR=<%= @nodeapp_dir %>
-NODEAPP_SCRIPT="server.js"
+NODEAPP_SCRIPT=<%= @server_js %>
 NODEAPP_OPTION=""
 
 [ -x "$DAEMON" ] || exit 0
 
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-# [ -d <%= @root_dir %>/$NAME/books ] || mkdir -p <%= @root_dir %>/$NAME/books && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/books
-# [ -d <%= @root_dir %>/$NAME/data ] || mkdir -p <%= @root_dir %>/$NAME/data && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/data
 [ -d <%= @root_dir %>/$NAME/books ] || mkdir -p <%= @root_dir %>/$NAME/books
 [ -d <%= @root_dir %>/$NAME/data ] || mkdir -p <%= @root_dir %>/$NAME/data
 [ -d /var/log/$NAME ] || mkdir -p /var/log/$NAME
