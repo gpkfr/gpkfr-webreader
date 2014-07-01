@@ -30,9 +30,10 @@ NODEAPP_OPTION=""
 
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-[ -d <%= @root_dir %>/$NAME/books ] || mkdir -p <%= @root_dir %>/$NAME/books && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/books
-[ -d <%= @root_dir %>/$NAME/data ] || mkdir -p <%= @root_dir %>/$NAME/data && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/data
-
+# [ -d <%= @root_dir %>/$NAME/books ] || mkdir -p <%= @root_dir %>/$NAME/books && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/books
+# [ -d <%= @root_dir %>/$NAME/data ] || mkdir -p <%= @root_dir %>/$NAME/data && chown -R <%= @wruser %>:<%= @wrgrp %> <%= @root_dir %>/$NAME/data
+[ -d <%= @root_dir %>/$NAME/books ] || mkdir -p <%= @root_dir %>/$NAME/books
+[ -d <%= @root_dir %>/$NAME/data ] || mkdir -p <%= @root_dir %>/$NAME/data
 [ -d /var/log/$NAME ] || mkdir -p /var/log/$NAME
 
 [ -r <%= @root_dir %>/$NAME/$name.lock ] || sudo -u $USER /usr/local/sbin/webreader.sh <%= @root_dir %> $NAME
