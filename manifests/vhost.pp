@@ -39,7 +39,7 @@ define webreader::vhost (
 	service { "${script_name}":
 		ensure => running,
 		enable => true,
-		require => File["/etc/init.d/${script_name}"],
+		require => [File["/etc/init.d/${script_name}"], Class['nodejs']],
 	}
 
 
