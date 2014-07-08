@@ -8,6 +8,7 @@ server {
     listen 0.0.0.0:80;
     server_name <%= @server_name %>;
     access_log /var/log/nginx/<%= @script_name %>.log;
+    root <%= @nodeapp_dir %>dist/public
 
     location / {
       try_files $uri $uri/ @node;
