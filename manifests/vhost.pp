@@ -37,11 +37,20 @@ define webreader::vhost (
 		content => template('webreader/webreader.erb'),
 	}
 
+  if $::webreader::install_node {
+ 		service { "${script_name}":
+			ensure => running,
+			enable => true,
+			require => [File["/etc/init.d/${script_name}"], Class['nodejs']],
+	}
+} else {
 	service { "${script_name}":
 		ensure => running,
 		enable => true,
-		require => [File["/etc/init.d/${script_name}"], Class['nodejs']],
+		require => File["/etc/init.d/${script_name}"],
 	}
+
+}
 
 
 	file { "/etc/nginx/sites-available/${script_name}":
@@ -79,10 +88,10 @@ define webreader::vhost (
 			provider => git,
 			revision => 'master',
 			source   => 'git@github.com:Gutenberg-Technology/Web-Reader.git',
-  			user     => $wruser,
-  			owner    => $wruser,
+  		user     => $wruser,
+  		owner    => $wruser,
 			group    => $wrgrp,
-  			require  => Exec['ssh know github']
+  		require  => Exec['ssh know github']
 		}
   }
 }
