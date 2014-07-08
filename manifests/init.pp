@@ -43,7 +43,7 @@ class webreader (
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
-  npm_pkg = [ "phantomjs", "gulp", "bower" ]
+  $npm_pkg = [ "phantomjs", "gulp", "bower" ]
 
   validate_bool($install_node)
 
