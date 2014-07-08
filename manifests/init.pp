@@ -39,20 +39,23 @@ class webreader (
   $version        = 'latest',
   $environment    = 'production',
   $status         = 'running',
+  $install_node   = true,
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
-        $npm_pkg = [ "phantomjs", "gulp", "bower" ]
-        #$nodeapp_dir = "/var/www/${script_name}/dist/"
-	include apt
+  npm_pkg = [ "phantomjs", "gulp", "bower" ]
+
+  validate_bool($install_node)
+
+  include apt
 
 	apt::source { 'dotdebbase':
-                location   => 'http://packages.dotdeb.org',
-                release    => 'wheezy',
-                repos      => 'all',
-                key        => '89DF5277',
-                key_source => 'http://www.dotdeb.org/dotdeb.gpg',
-        }
+    location   => 'http://packages.dotdeb.org',
+    release    => 'wheezy',
+    repos      => 'all',
+    key        => '89DF5277',
+    key_source => 'http://www.dotdeb.org/dotdeb.gpg',
+  }
 
 	apt::source { 'dotdeb':
 		location   => 'http://packages.dotdeb.org',
@@ -83,10 +86,13 @@ class webreader (
 		command => "/usr/bin/apt-get update",
 	}
 
-  class { 'nodejs':
-    version => 'v0.10.29',
-  }->package { $npm_pkg:
-                provider => npm,
+
+  if $install_node {
+    class { 'nodejs':
+      version => 'v0.10.29',
+    }->package { $npm_pkg:
+      provider => npm,
+    }
   }
 
   service { 'nginx':
@@ -95,7 +101,7 @@ class webreader (
     enable  => true,
     require => Package[$nginx],
   }
-	
+
   file { "/etc/nginx/sites-enabled/default":
     ensure  => absent,
     require => Package [$nginx],

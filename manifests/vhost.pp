@@ -1,6 +1,6 @@
 define webreader::vhost (
 	$nodeapp_dir,
-  	$server_js,
+  $server_js,
 	$root_dir       = '/var/www',
 	$server_name 	= $name,
 	$server 		= '127.0.0.1',
@@ -8,8 +8,8 @@ define webreader::vhost (
 	$script_name    = 'webreader',
 	$wruser		    = 'vagrant',
 	$wrgrp		    = 'vagrant',
-  	$nginx = $::webreader::nginx,
-  	$vagrant = false
+  $nginx = $::webreader::nginx,
+  $vagrant = false
 ){
 
  if ! defined(Class['webreader']) {
@@ -73,7 +73,7 @@ define webreader::vhost (
     	group   => $wrgrp,
     	mode    => 775,
     	require => Package [$nginx],
-	}->vcsrepo 
+	}->vcsrepo
 		{ "${root_dir}/${script_name}":
 			ensure   => latest,
 			provider => git,
