@@ -42,9 +42,17 @@ class webreader (
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
-  $npm_pkg = [ "phantomjs", "gulp", "bower" ]
-  #$nodeapp_dir = "/var/www/${script_name}/dist/"
+        $npm_pkg = [ "phantomjs", "gulp", "bower" ]
+        #$nodeapp_dir = "/var/www/${script_name}/dist/"
 	include apt
+
+	apt::source { 'dotdebbase':
+                location   => 'http://packages.dotdeb.org',
+                release    => 'wheezy',
+                repos      => 'all',
+                key        => '89DF5277',
+                key_source => 'http://www.dotdeb.org/dotdeb.gpg',
+        }
 
 	apt::source { 'dotdeb':
 		location   => 'http://packages.dotdeb.org',
