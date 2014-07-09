@@ -63,10 +63,12 @@ class webreader (
  		repos      => 'all',
 		key        => '89DF5277',
  		key_source => 'http://www.dotdeb.org/dotdeb.gpg',
- 	}->package { $base:
-    		ensure   => 'latest',
-    		require =>  Exec [ 'apt-update']
  	}
+
+  package { $base:
+    ensure   => 'latest',
+ 	  require  =>  [Apt::Source['dotdebbase'], Apt::Source ['dotdeb']],
+  }
 
   package { 'compass':
     name => 'compass',
@@ -81,10 +83,6 @@ class webreader (
     ensure => latest,
     require => Package['rubygems'],
 }
-
-	# exec { "apt-update":
-	# 	command => "/usr/bin/apt-get update",
-	# }
 
 
   if ! $bypass_node {

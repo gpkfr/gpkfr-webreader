@@ -44,14 +44,13 @@ define webreader::vhost (
 			require => [File["/etc/init.d/${script_name}"], Class['nodejs']],
 	}
 } else {
-	service { "${script_name}":
-		ensure => running,
-		enable => true,
-		require => File["/etc/init.d/${script_name}"],
+		service { "${script_name}":
+			ensure => running,
+			enable => true,
+			require => File["/etc/init.d/${script_name}"],
 	}
 
 }
-
 
 	file { "/etc/nginx/sites-available/${script_name}":
 		ensure    => file,
