@@ -39,13 +39,13 @@ class webreader (
   $version        = 'latest',
   $environment    = 'production',
   $status         = 'running',
-  $install_node   = true,
+  $bypass_node   = true,
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
   $npm_pkg = [ "phantomjs", "gulp", "bower" ]
 
-  validate_bool($install_node)
+  validate_bool($bypass_node)
 
   include apt
 
@@ -82,12 +82,12 @@ class webreader (
     require => Package['rubygems'],
 }
 
-	exec { "apt-update":
-		command => "/usr/bin/apt-get update",
-	}
+	# exec { "apt-update":
+	# 	command => "/usr/bin/apt-get update",
+	# }
 
 
-  if $install_node {
+  if ! $bypass_node {
     class { 'nodejs':
       version => 'v0.10.29',
     }->package { $npm_pkg:
