@@ -40,7 +40,7 @@ class webreader (
   $environment    = 'production',
   $status         = 'running',
   $bypass_node    = true,
-  $nodejs_version = undef,
+  $nodejs_version = $::nodejs_stable_version,
 ){
   $nginx = "nginx-light"
   $base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
