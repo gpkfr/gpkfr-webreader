@@ -39,11 +39,13 @@ class webreader (
   $version        = 'latest',
   $environment    = 'production',
   $status         = 'running',
-  $bypass_node   = true,
+  $bypass_node    = true,
+  $nodejs_version = $::nodejs_stable_version,
 ){
 	$nginx = "nginx-light"
 	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
   $npm_pkg = [ "phantomjs", "gulp", "bower" ]
+  #$::nodejs_installed_version
 
   validate_bool($bypass_node)
 
@@ -87,7 +89,7 @@ class webreader (
 
   if ! $bypass_node {
     class { 'nodejs':
-      version => 'v0.10.29',
+      version => $nodejs_version,
     }->package { $npm_pkg:
       provider => npm,
     }
