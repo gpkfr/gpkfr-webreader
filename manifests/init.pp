@@ -41,7 +41,6 @@ class webreader (
   $status         = 'running',
   $bypass_node    = true,
   $nodejs_version = $::nodejs_stable_version,
-  $nodejs_actual = $::nodejs_installed_version
 ){
   $nginx = "nginx-light"
   $base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
@@ -49,7 +48,6 @@ class webreader (
 
   validate_bool($bypass_node)
 
-  notify {$nodejs_actual:}
 
   include apt
 
@@ -90,12 +88,11 @@ class webreader (
 
 
   if ! $bypass_node {
-    if $nodejs_version != $nodejs_actual {
-      class { 'nodejs':
-        version => $nodejs_version,
-      }->package { $npm_pkg:
-        provider => npm,
-      }
+    notify {$nodejs_version:}
+    class { 'nodejs':
+      version => $nodejs_version,
+    }->package { $npm_pkg:
+      provider => npm,
     }
   }
 
