@@ -88,9 +88,9 @@ class webreader (
 
 
   if ! $bypass_node {
-    if $nodejs_version != $::nodejs_installed_version {
+    if ${nodejs_version} != $::nodejs_installed_version {
       class { 'nodejs':
-        version => $nodejs_version,
+        version => ${nodejs_version},
       }->package { $npm_pkg:
         provider => npm,
       }
