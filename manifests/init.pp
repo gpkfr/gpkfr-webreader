@@ -49,6 +49,8 @@ class webreader (
 
   validate_bool($bypass_node)
 
+  notify {$nodejs_actual:}
+
   include apt
 
 	apt::source { 'dotdebbase':
