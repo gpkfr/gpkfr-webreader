@@ -88,12 +88,15 @@ class webreader (
 
 
   if ! $bypass_node {
-    notify {$nodejs_version:}
-    class { 'nodejs':
-      version => $nodejs_version,
-    }->package { $npm_pkg:
-      provider => npm,
+
+    if $::nodejs_installed_version != $nodejs_version {
+      class { 'nodejs':
+        version => $nodejs_version,
+      }->package { $npm_pkg:
+        provider => npm,
+      }
     }
+
   }
 
   service { 'nginx':
