@@ -41,11 +41,11 @@ class webreader (
   $status         = 'running',
   $bypass_node    = true,
   $nodejs_version = $::nodejs_stable_version,
-){
-	$nginx = "nginx-light"
-	$base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
-  $npm_pkg = [ "phantomjs", "gulp", "bower" ]
   $nodejs_actual = $::nodejs_installed_version
+){
+  $nginx = "nginx-light"
+  $base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server" ]
+  $npm_pkg = [ "phantomjs", "gulp", "bower" ]
 
   validate_bool($bypass_node)
 
