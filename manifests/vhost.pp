@@ -37,7 +37,7 @@ define webreader::vhost (
 		content => template('webreader/webreader.erb'),
 	}
 
-  if $::version_nodejs_installed = undef and ! $::webreader::bypass_node {
+  if $::version_nodejs_installed == undef and ! $::webreader::bypass_node {
  		service { "${script_name}":
 			ensure => running,
 			enable => true,
@@ -47,7 +47,7 @@ define webreader::vhost (
 		service { "${script_name}":
 			ensure => running,
 			enable => true,
-			require => File["/etc/init.d/${script_name}"],
+			require => [File["/etc/init.d/${script_name}"], Class['webreader']],
 	}
 
 }
