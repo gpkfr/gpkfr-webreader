@@ -92,8 +92,24 @@ class webreader (
     if $::version_nodejs_installed != $nodejs_version {
       class { 'nodejs':
         version => $nodejs_version,
-      }->package { $npm_pkg:
+      }
+
+      file { "/usr/local/bin/node":
+        ensure  => link,
+        target  => '/usr/local/node/node-default/bin/node',
+        require => Class['nodejs'],
+      }
+
+      file { "/usr/local/bin/npm":
+        ensure  => link,
+        target  => '/usr/local/node/node-default/bin/npm',
+        require => Class['nodejs'],
+      }
+
+
+      package { $npm_pkg:
         provider => npm,
+        require  => [ Class['nodejs'], File['/usr/local/bin/npm']],
       }
     }
 
