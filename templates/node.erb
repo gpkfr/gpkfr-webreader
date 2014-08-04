@@ -1,31 +1,31 @@
 # the IP(s) on which your node server is running. I choose port 3000.
 upstream <%= @script_name %> {
-server 127.0.0.1:<%= @node_port %>;
+  server 127.0.0.1:<%= @node_port %>;
 }
 
 # the nginx server instance
 server {
-    listen 0.0.0.0:80;
-    server_name <%= @server_name %>;
-    access_log /var/log/nginx/<%= @script_name %>.log;
-    root <%= @nodeapp_dir %>dist/public;
+  listen 0.0.0.0:80;
+  server_name <%= @server_name %>;
+  access_log /var/log/nginx/<%= @script_name %>.log;
+  root <%= @nodeapp_dir %>dist/public;
 
-    location / {
-      try_files $uri $uri/ @node;
-	location ~* \.(js)$ {
-		expires 1d;
-		log_not_found off;
-	}
-    }
+  location / {
+    try_files $uri $uri/ @node;
+    # location ~* \.(js)$ {
+    #   expires 1d;
+    #   log_not_found off;
+    # }
+  }
 
-    # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
-    location @node {
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header Host $http_host;
-      proxy_set_header X-NginX-Proxy true;
+  # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
+  location @node {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
 
-      proxy_pass http://<%= @script_name %>;
-      proxy_redirect off;
-    }
- }
+    proxy_pass http://<%= @script_name %>;
+    proxy_redirect off;
+  }
+}
