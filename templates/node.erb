@@ -12,10 +12,10 @@ server {
 
   location / {
     try_files $uri $uri/ @node;
-    # location ~* \.(js)$ {
-    #   expires 1d;
-    #   log_not_found off;
-    # }
+    location ~* \.(js)$ {
+       expires 1d;
+       log_not_found off;
+    }
   }
 
   # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
