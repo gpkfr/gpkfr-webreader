@@ -34,7 +34,7 @@ server {
   # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
   location @node {
     proxy_buffering on;
-    proxy_buffers 8 4k;
+    proxy_buffers 16 4k;
 
     proxy_http_version 1.1;
 
