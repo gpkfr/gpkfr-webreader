@@ -94,6 +94,13 @@ class webreader (
         version => $nodejs_version,
       }
 
+      package { $npm_pkg:
+        provider => npm,
+        require  => [ Class['nodejs'], File['/usr/local/bin/npm']],
+      }
+    }
+
+  }
       file { "/usr/local/bin/node":
         ensure  => link,
         target  => '/usr/local/node/node-default/bin/node',
@@ -106,17 +113,12 @@ class webreader (
         require => Class['nodejs'],
       }
 
-      package { $npm_pkg:
-        provider => npm,
-        require  => [ Class['nodejs'], File['/usr/local/bin/npm']],
-      }->file { "/usr/local/bin/phantomjs":
+      file { "/usr/local/bin/phantomjs":
         ensure => link,
         target => '/usr/local/node/node-default/bin/phantomjs',
+        require => [Class['nodejs'],Package["$npm_pkg"],
       }
 
-    }
-
-  }
 
   service { 'nginx':
     name    => "nginx",
