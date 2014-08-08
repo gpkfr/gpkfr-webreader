@@ -101,6 +101,7 @@ class webreader (
     }
 
   }
+
       file { "/usr/local/bin/node":
         ensure  => link,
         target  => '/usr/local/node/node-default/bin/node',
