@@ -117,7 +117,7 @@ class webreader (
       file { "/usr/local/bin/phantomjs":
         ensure => link,
         target => '/usr/local/node/node-default/bin/phantomjs',
-        require => [Class['nodejs'],Package["$npm_pkg"],
+        require => [Class['nodejs'],Package["$npm_pkg"]],
       }
 
 
