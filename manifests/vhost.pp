@@ -9,7 +9,7 @@ define webreader::vhost (
 	$wruser		    = 'vagrant',
 	$wrgrp		    = 'vagrant',
   $nginx = $::webreader::nginx,
-  $vagrant = false
+  $vagrant = false,
   $bucket_s3 = undef,
   $awsaccessKeyId = undef,
 ){
