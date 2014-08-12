@@ -10,6 +10,8 @@ define webreader::vhost (
 	$wrgrp		    = 'vagrant',
   $nginx = $::webreader::nginx,
   $vagrant = false
+  $bucket_s3 = undef,
+  $awsaccessKeyId = undef,
 ){
 
  if ! defined(Class['webreader']) {
@@ -52,14 +54,25 @@ define webreader::vhost (
 
 }
 
-	file { "/etc/nginx/sites-available/${script_name}":
-		ensure    => file,
-		mode      => 644,
-		owner     => 'root',
-		group     => 'root',
-		content   => template('webreader/node.erb'),
-		require   => Package [$nginx],
-	}
+ if $bucket_s3 == undef and $awsaccessKeyId == undef {
+    file { "/etc/nginx/sites-available/${script_name}":
+  		ensure    => file,
+	  	mode      => 644,
+		  owner     => 'root',
+		  group     => 'root',
+		  content   => template('webreader/vhost.erb'),
+		  require   => Package [$nginx],
+	  }
+  } else
+    file { "/etc/nginx/sites-available/${script_name}":
+  		ensure    => file,
+	  	mode      => 644,
+		  owner     => 'root',
+		  group     => 'root',
+		  content   => template('webreader/vhost_s3.erb'),
+		  require   => Package [$nginx],
+	  }
+ }
 
 	file {"/etc/nginx/sites-enabled/${script_name}":
 	    ensure  => link,
