@@ -63,7 +63,7 @@ define webreader::vhost (
 		  content   => template('webreader/vhost.erb'),
 		  require   => Package [$nginx],
 	  }
-  } else
+  } else {
     file { "/etc/nginx/sites-available/${script_name}":
   		ensure    => file,
 	  	mode      => 644,
