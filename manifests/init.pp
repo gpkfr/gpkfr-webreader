@@ -130,6 +130,25 @@ class webreader (
   file { "/etc/nginx/sites-enabled/default":
     ensure  => absent,
     require => Package [$nginx],
+    notify  => Service ['nginx'],
   }
 
+  file { "/etc/sysctl.d/99-tuning.conf":
+    ensure => present,
+    source => 'puppet:///modules/webreader/sysctl/99-tuning.conf',
+  }
+
+  file { "/etc/nginx/conf.d/00-tuning.conf":
+    ensure  => present,
+    source  => 'puppet:///modules/webreader/nginx/00-tuning.conf',
+    require => Package [$nginx],
+    notify  => Service ['nginx'],
+  }
+
+  file { "/etc/nginx/conf.d/01-proxy-cache.conf":
+    ensure  => present,
+    source  => 'puppet:///modules/webreader/nginx/01-proxy-cache.conf',
+    require => Package [$nginx],
+    notify  => Service ['nginx'],
+  }
 }
