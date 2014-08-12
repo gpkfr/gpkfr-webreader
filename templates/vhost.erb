@@ -1,7 +1,6 @@
 # the IP(s) on which your node server is running. I choose port 3000.
 upstream <%= @script_name %> {
   server 127.0.0.1:<%= @node_port %>;
-
   keepalive 512;
 }
 

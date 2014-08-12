@@ -1,13 +1,12 @@
 # the IP(s) on which your node server is running. I choose port 3000.
 upstream <%= @script_name %> {
   server 127.0.0.1:<%= @node_port %>;
-
   keepalive 512;
 }
 
 upstream s3 {
-server '<%= @bucket_s3 %>';
-    keepalive 10;
+  server '<%= @bucket_s3 %>';
+  keepalive 10;
 }
 
 # the nginx server instance
@@ -34,32 +33,32 @@ server {
     set $s3_bucket '<%= @bucket_s3 %>';
     set $aws_access_key 'AWSAccessKeyId=<%= @awsaccessKeyId %>';
 
-     set $url_expires 'Expires=$arg_e';
-     set $url_signature 'Signature=$arg_st';
-     set $url_full '$1?$aws_access_key&$url_expires&$url_signature';
+    set $url_expires 'Expires=$arg_e';
+    set $url_signature 'Signature=$arg_st';
+    set $url_full '$1?$aws_access_key&$url_expires&$url_signature';
 
-      proxy_set_header Host $s3_bucket;
-      proxy_set_header Authorization '';
-      proxy_hide_header x-amz-id-2;
-      proxy_hide_header x-amz-request-id;
-      proxy_hide_header Set-Cookie;
-      proxy_ignore_headers "Set-Cookie";
-      proxy_intercept_errors on;
+    proxy_set_header Host $s3_bucket;
+    proxy_set_header Authorization '';
+    proxy_hide_header x-amz-id-2;
+    proxy_hide_header x-amz-request-id;
+    proxy_hide_header Set-Cookie;
+    proxy_ignore_headers "Set-Cookie";
+    proxy_intercept_errors on;
 
-      proxy_buffering off;
+    proxy_buffering off;
 
-      proxy_cache one;
-      proxy_cache_valid   200 24h;
-      proxy_cache_valid   403 15m;
-      proxy_cache_bypass  $http_cache_purge;
-      add_header          X-Cached $upstream_cache_status;
+    proxy_cache one;
+    proxy_cache_valid   200 24h;
+    proxy_cache_valid   403 15m;
+    proxy_cache_bypass  $http_cache_purge;
+    add_header          X-Cached $upstream_cache_status;
 
-      #proxy_cache_key sfs$request_uri$scheme;
-      proxy_redirect off;
+    #proxy_cache_key sfs$request_uri$scheme;
+    proxy_redirect off;
 
-      proxy_http_version 1.1;
-      proxy_set_header   Connection '';
-      proxy_pass http://s3/$url_full;
+    proxy_http_version 1.1;
+    proxy_set_header   Connection '';
+    proxy_pass http://s3/$url_full;
   }
 
   location ^~ /read/ {
