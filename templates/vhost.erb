@@ -30,7 +30,7 @@ server {
     try_files $uri @node;
   }
 
- location ~* \.(js|png|jpg|css)$ {
+ location ~* \.(js|png|jpg|css|svg)$ {
    expires 1d;
    log_not_found off;
  }
