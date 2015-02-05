@@ -6,7 +6,7 @@ upstream <%= @script_name %> {
 
 # the nginx server instance
 server {
-  listen 0.0.0.0:80;
+  listen 0.0.0.0:<%= @nginx_port %>;
   server_name <%= @server_name %>;
   access_log /var/log/nginx/<%= @script_name %>.log;
 

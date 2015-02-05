@@ -5,12 +5,13 @@ define webreader::vhost (
 	$server_name 	= $name,
 	$server 		= '127.0.0.1',
 	$node_port      = '3000',
+  $nginx_port     = '80',
 	$script_name    = 'webreader',
-	$wruser		    = 'vagrant',
-	$wrgrp		    = 'vagrant',
-  $nginx = $::webreader::nginx,
-  $vagrant = false,
-  $bucket_s3 = undef,
+	$wruser		      = 'vagrant',
+	$wrgrp		      = 'vagrant',
+  $nginx          = $::webreader::nginx,
+  $vagrant        = false,
+  $bucket_s3      = undef,
   $awsaccessKeyId = undef,
 ){
 
