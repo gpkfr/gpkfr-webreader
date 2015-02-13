@@ -41,13 +41,14 @@ class webreader (
   $status         = 'running',
   $bypass_node    = true,
   $nodejs_version = $::nodejs_stable_version,
+  $compile_node   = true,
 ){
   $nginx = "nginx-light"
   $base = [ $nginx, "ruby-full", "rubygems", "zip", "build-essential", "checkinstall", "fakeroot", "git", "unzip", "libfontconfig1", "redis-server", "python-setuptools", "python-dateutil", "python-magic" ]
   $npm_pkg = [ "phantomjs", "gulp", "bower" ]
 
   validate_bool($bypass_node)
-
+  validate_bool($compile_node)
 
   include apt
 
@@ -91,7 +92,8 @@ class webreader (
 
     if $::version_nodejs_installed != $nodejs_version {
       class { 'nodejs':
-        version => $nodejs_version,
+        version      => $nodejs_version,
+        make_install => $compile_node,
       }
 
       file { "/usr/local/bin/node":
