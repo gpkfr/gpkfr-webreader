@@ -72,12 +72,10 @@ class webreader (
  	  }
   }
 
-  if ! defined(Package[$base]) {
     package { $base:
       ensure   => 'latest',
  	    require  =>  [Apt::Source['dotdebbase'], Apt::Source ['dotdeb']],
     }
-  }
 
   if ! defined(Package['compass']) {
     package { 'compass':
