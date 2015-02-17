@@ -72,24 +72,30 @@ class webreader (
  	  }
   }
 
-  package { $base:
-    ensure   => 'latest',
- 	  require  =>  [Apt::Source['dotdebbase'], Apt::Source ['dotdeb']],
+  if ! defined(Package[$base]) {
+    package { $base:
+      ensure   => 'latest',
+ 	    require  =>  [Apt::Source['dotdebbase'], Apt::Source ['dotdeb']],
+    }
   }
 
-  package { 'compass':
-    name => 'compass',
-    provider => gem,
-    ensure => latest,
-    require => Package['rubygems'],
+  if ! defined(Package['compass']) {
+    package { 'compass':
+      name => 'compass',
+      provider => gem,
+      ensure => latest,
+      require => Package['rubygems'],
+    }
   }
 
-  package { 'sass':
-    name => 'sass',
-    provider => gem,
-    ensure => latest,
-    require => Package['rubygems'],
-}
+  if ! defined(Package['sass']) {
+    package { 'sass':
+      name => 'sass',
+      provider => gem,
+      ensure => latest,
+      require => Package['rubygems'],
+    }
+  }
 
 
   if ! $bypass_node {
