@@ -52,21 +52,25 @@ class webreader (
 
   include apt
 
-	apt::source { 'dotdebbase':
-    location   => 'http://packages.dotdeb.org',
-    release    => 'wheezy',
-    repos      => 'all',
-    key        => '89DF5277',
-    key_source => 'http://www.dotdeb.org/dotdeb.gpg',
+  if ! defined(Apt::Source['dotdebbase']) {
+	  apt::source { 'dotdebbase':
+      location   => 'http://packages.dotdeb.org',
+      release    => 'wheezy',
+      repos      => 'all',
+      key        => '89DF5277',
+      key_source => 'http://www.dotdeb.org/dotdeb.gpg',
+    }
   }
 
-	apt::source { 'dotdeb':
-		location   => 'http://packages.dotdeb.org',
-		release    => 'wheezy-php55',
- 		repos      => 'all',
-		key        => '89DF5277',
- 		key_source => 'http://www.dotdeb.org/dotdeb.gpg',
- 	}
+	if ! defined(Apt::Source ['dotdeb']) {
+    apt::source { 'dotdeb':
+		  location   => 'http://packages.dotdeb.org',
+		  release    => 'wheezy-php55',
+ 		  repos      => 'all',
+		  key        => '89DF5277',
+ 		  key_source => 'http://www.dotdeb.org/dotdeb.gpg',
+ 	  }
+  }
 
   package { $base:
     ensure   => 'latest',
