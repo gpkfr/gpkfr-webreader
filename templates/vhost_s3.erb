@@ -15,8 +15,6 @@ server {
   server_name <%= @server_name %>;
   access_log /var/log/nginx/<%= @script_name %>.log;
 
-  #proxy_cache one;
-
   #access_log off;
   #error_log /dev/null crit;
 
@@ -47,6 +45,7 @@ server {
     proxy_ignore_headers "Set-Cookie";
     proxy_intercept_errors on;
 
+    proxy_max_temp_file_size 0;
     proxy_buffering off;
 
     proxy_cache one;
@@ -55,7 +54,6 @@ server {
     proxy_cache_bypass  $http_cache_purge;
     add_header          X-Cached $upstream_cache_status;
 
-    #proxy_cache_key sfs$request_uri$scheme;
     proxy_redirect off;
 
     proxy_http_version 1.1;
