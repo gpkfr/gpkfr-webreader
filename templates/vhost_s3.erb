@@ -30,6 +30,9 @@ server {
   }
 
   location ~* ^/private/(.*) {
+    expires 1M;
+    add_header Cache-Control "private";
+
     set $s3_bucket '<%= @bucket_s3 %>';
     set $aws_access_key 'AWSAccessKeyId=<%= @awsaccessKeyId %>';
 
@@ -42,6 +45,8 @@ server {
     proxy_hide_header x-amz-id-2;
     proxy_hide_header x-amz-request-id;
     proxy_hide_header Set-Cookie;
+    proxy_hide_header Cache-Control;
+    proxy_hide_header Expires;
     proxy_ignore_headers "Set-Cookie";
     proxy_intercept_errors on;
 
