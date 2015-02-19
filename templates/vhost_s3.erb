@@ -6,7 +6,7 @@ upstream <%= @script_name %> {
 
 upstream s3 {
   server '<%= @bucket_s3 %>';
-  keepalive 10;
+  keepalive 512;
 }
 
 # the nginx server instance
@@ -25,8 +25,8 @@ server {
   include /etc/nginx/conf.d/*.<%= @script_name %>;
 
   location / {
-    try_files $uri $uri/ @node;
     expires max;
+    try_files $uri $uri/ @node;
   }
 
   location ~* ^/private/(.*) {
@@ -51,13 +51,13 @@ server {
     proxy_intercept_errors on;
 
     proxy_max_temp_file_size 0;
-    proxy_buffering off;
+    proxy_buffering on;
 
-    proxy_cache one;
-    proxy_cache_valid   200 24h;
-    proxy_cache_valid   403 15m;
-    proxy_cache_bypass  $http_cache_purge;
-    add_header          X-Cached $upstream_cache_status;
+    #proxy_cache one;
+    #proxy_cache_valid   200 24h;
+    #proxy_cache_valid   403 15m;
+    #proxy_cache_bypass  $http_cache_purge;
+    #add_header          X-Cached $upstream_cache_status;
 
     proxy_redirect off;
 
@@ -67,17 +67,20 @@ server {
   }
 
   location ^~ /read/ {
+    expires 1M;
+    add_header Cache-Control "private";
     try_files $uri @node;
   }
 
  location ~* \.(js|png|jpg|css|svg)$ {
-   expires 1d;
+   expires 1M;
+   add_header Cache-Control "public";
    log_not_found off;
  }
 
   # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
   location @node {
-    proxy_buffering off;
+    proxy_buffering on;
     proxy_buffers 16 4k;
     proxy_buffer_size 2k;
 
@@ -89,6 +92,8 @@ server {
     proxy_set_header X-NginX-Proxy true;
 
     proxy_hide_header X-Powered-By;
+    proxy_hide_header Expires;
+    proxy_hide_header Cache-Control;
 
     proxy_pass http://<%= @script_name %>;
     proxy_redirect off;
