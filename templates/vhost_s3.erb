@@ -67,14 +67,14 @@ server {
   }
 
   location ^~ /read/ {
-    expires 1M;
-    add_header Cache-Control "private";
+    #expires 1M;
+    #add_header Cache-Control "private";
     try_files $uri @node;
   }
 
  location ~* \.(js|png|jpg|css|svg)$ {
    expires 1M;
-   add_header Cache-Control "public";
+   #add_header Cache-Control "public";
    log_not_found off;
  }
 
