@@ -57,7 +57,7 @@ class webreader (
       location   => 'http://packages.dotdeb.org',
       release    => 'wheezy',
       repos      => 'all',
-      key        => '89DF5277',
+      key        => '0x89DF5277',
       key_source => 'http://www.dotdeb.org/dotdeb.gpg',
     }
   }
@@ -67,7 +67,7 @@ class webreader (
 		  location   => 'http://packages.dotdeb.org',
 		  release    => 'wheezy-php55',
  		  repos      => 'all',
-		  key        => '89DF5277',
+		  key        => '0x89DF5277',
  		  key_source => 'http://www.dotdeb.org/dotdeb.gpg',
  	  }
   }
