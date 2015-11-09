@@ -1,18 +1,19 @@
 define webreader::vhost (
 	$nodeapp_dir,
-  $server_js,
+	$server_js,
 	$root_dir       = '/var/www',
 	$server_name 	= $name,
 	$server 		= '127.0.0.1',
 	$node_port      = '3000',
-  $nginx_port     = '80',
+	$nginx_port     = '80',
 	$script_name    = 'webreader',
 	$wruser		      = 'vagrant',
 	$wrgrp		      = 'vagrant',
-  $nginx          = $::webreader::nginx,
-  $vagrant        = false,
-  $bucket_s3      = undef,
-  $awsaccessKeyId = undef,
+	$nginx          = $::webreader::nginx,
+        $vagrant        = false,
+        $bucket_s3      = undef,
+        $awsaccessKeyId = undef,
+	$tpl_nginx	= 'vhost',
 ){
 
  if ! defined(Class['webreader']) {
@@ -61,7 +62,7 @@ define webreader::vhost (
 	  	mode      => 644,
 		  owner     => 'root',
 		  group     => 'root',
-		  content   => template('webreader/vhost.erb'),
+		  content   => template("webreader/${tpl_nginx}.erb"),
 		  require   => Package [$nginx],
 	  }
   } else {
@@ -70,7 +71,7 @@ define webreader::vhost (
 	  	mode      => 644,
 		  owner     => 'root',
 		  group     => 'root',
-		  content   => template('webreader/vhost_s3.erb'),
+		  content   => template("webreader/${tpl_nginx}_s3.erb"),
 		  require   => Package [$nginx],
 	  }
  }
